@@ -45,9 +45,7 @@ Bypass:
 
 ; Reset handler
 Reset:
-		sei												; we don't want the BIOS to ack IRQs here
-		lda #$40										; 4-step mode, disable IRQs
-		sta JOY2
+;		sei												; we don't want the BIOS to ack IRQs here
 		lda #$00
 		tax
 @clrmem:
@@ -67,24 +65,45 @@ Reset:
 		
 ; Initialise background
 BGInit:
-		jsr VINTWait
+		jsr CallVINTWait
 		jsr DisPFObj
 		jsr VRAMStructWrite
 	.addr Palettes
-		jsr VINTWait
+		jsr CallVINTWait
 		jsr EnPF
 		jsr SetScroll
 
-FDSStatusCheck:
-		jsr VINTWait									; disable NMIs
-	
 ; execute delay routine in DRAM
 		jsr VBlankWait
+		cli												; VINTWait handler preserves I flag state from NMI...
 		jsr PrintAddresses
-		cli												; VINTWait usage preserves I flag state from NMI...
+		
+		lda #$00
+		tax
+		tay
 
 Forever:
+		jsr Delay
+		jsr Delayms
 		jmp Forever
+
+; duplicate of BIOS Delayms routine
+Delay:
+		ldx $00
+		ldx #$fe
+:
+		nop
+		dex
+		bne :-
+		cmp $00
+		dey
+		bne Delay
+		rts
+
+CallVINTWait:
+		jsr VINTWait
+		cli												; VINTWait usage preserves I flag state from NMI...
+		rts
 
 ; If this IRQ handler is ever called, 
 ; Print the return address
@@ -149,7 +168,7 @@ PrintAddresses:
 		stx ReturnAddr2+2
 		sty ReturnAddr2+3
 :
-		jsr VINTWait
+;		jsr CallVINTWait
 		jsr VRAMStructWrite
 	.addr BGData
 		jmp SetScroll

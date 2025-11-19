@@ -14,7 +14,7 @@ This program uses a NOPslide starting from $6000 to count the number of cycles b
 
 - First NOPslide return address after resetting the watchdog ($4023.D0 toggle)
 - Second NOPslide return address after ack'ing the first IRQ and calling Delay131
-- Raster display of Delay131 execution for each watchdog IRQ
+- Raster display of Delay131 execution for each watchdog IRQ, while delay routines alternate between the BIOS ROM and PRG-RAM/DRAM
 
 ![Screen capture from a Sharp Twin Famicom](/img/FDS-4030D1-Addr_TwinFC.png)
 
