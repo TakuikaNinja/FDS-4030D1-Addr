@@ -2,6 +2,8 @@
 
 This program tests/visualises the FDS' DRAM refresh watchdog IRQ reported by $4030.D1.
 
+NESdev forum thread: https://forums.nesdev.org/viewtopic.php?t=26359
+
 ## Usage
 
 Simply load the program into an FDS, whether it be original hardware or on an emulator. 
