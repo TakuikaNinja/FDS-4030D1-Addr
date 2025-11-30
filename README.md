@@ -18,6 +18,10 @@ This program uses a NOPslide starting from $6000 to count the number of cycles b
 
 If the watchdog IRQs are not present/emulated, the return addresses will be displayed as `XXXX`.
 
+#### Hardware Capture
+
+Sharp Twin Famicom:
+
 ![Screen capture from a Sharp Twin Famicom](/img/FDS-4030D1-Addr_TwinFC.png)
 
 ## Building
