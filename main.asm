@@ -65,6 +65,7 @@ Reset:
 		
 ; Initialise background
 BGInit:
+		jsr InitAddresses
 		jsr CallVINTWait
 		jsr DisPFObj
 		jsr VRAMStructWrite
@@ -173,6 +174,17 @@ PrintAddresses:
 	.addr BGData
 		jmp SetScroll
 
+; Init the addresses to display XXXX when the watchdog is not present/emulated
+InitAddresses:
+		lda #$21										; 'X'
+		ldx #$3
+@loop:
+		sta ReturnAddr1,x
+		sta ReturnAddr2,x
+		dex
+		bpl @loop
+		rts
+
 NumToChars:												; splits A into X/Y
 		pha
 		and #$0f
@@ -200,12 +212,12 @@ BGData:
 	vram_addr $2000, 14, 14
 	encode_length INC1, COPY, 4
 ReturnAddr1:
-	.res 4, $21 ; 'X'
+	.res 4
 	
 	vram_addr $2000, 14, 15
 	encode_length INC1, COPY, 4
 ReturnAddr2:
-	.res 4, $21 ; 'X'
+	.res 4
 	encode_terminator
 
 ; Just write to all 16 entries so PPUADDR safely leaves the palette RAM region
