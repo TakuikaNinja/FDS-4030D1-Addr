@@ -25,8 +25,8 @@
 ; convert X/Y tile coordinates to PPU nametable address
 .macro vram_addr base, tileX, tileY
 	.assert base >= $2000 && base < $3000, error, "invalid base address"
-	.assert tileX > 0 && tileX < 32, error, "invalid tileX"
-	.assert tileY > 0 && tileY < 30, error, "invalid tileY"
+	.assert tileX >= 0 && tileX < 32, error, "invalid tileX"
+	.assert tileY >= 0 && tileY < 30, error, "invalid tileY"
 	.dbyt (base + (tileY << 5) + tileX)
 .endmacro
 
