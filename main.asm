@@ -102,6 +102,7 @@ Delay:
 		rts
 
 CallVINTWait:
+		bit PPU_STATUS									; clear vblank flag to avoid the vblank NMI bug
 		jsr VINTWait
 		cli												; VINTWait usage preserves I flag state from NMI...
 		rts
